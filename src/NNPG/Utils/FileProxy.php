@@ -60,7 +60,12 @@ class NNPG_Utils_FileProxy
     
     protected function _downloadFile()
     {
-        $fp = fopen(FILE_PATH . '/' . $this->_name, 'w+');
+        // @todo change this caching mechanism
+        $this->setPath(FILE_PATH . '/' . $this->_name);
+        if (file_exists($this->_path)) return;
+        if (!file_exists(dirname($this->_path)))
+            mkdir(dirname($this->_path), 0777, true);
+        $fp = fopen($this->_path, 'w+');
         $ch = curl_init($this->_url);
         curl_setopt($ch, CURLOPT_TIMEOUT, 50);
         curl_setopt($ch, CURLOPT_FILE, $fp);

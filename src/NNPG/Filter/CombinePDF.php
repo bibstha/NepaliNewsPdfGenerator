@@ -54,6 +54,9 @@ class NNPG_Filter_CombinePDF
     
     protected function _generateOutFile()
     {
+        if (!file_exists(dirname($this->params['outPath']))) 
+            mkdir(dirname($this->params['outPath']), 0777, true);
+            
         $commandTpl = 'gs -dNOPAUSE -sDEVICE=pdfwrite -sOUTPUTFILE=%s -dBATCH %s';
         $command = sprintf($commandTpl, $this->params['outPath'], implode(' ', $this->params['inPaths']));
         

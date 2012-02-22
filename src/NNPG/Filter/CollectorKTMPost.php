@@ -4,6 +4,7 @@ require_once("NNPG/Utils/FileProxy.php");
 class NNPG_Filter_CollectorKTMPost
 {
     protected $_params;
+    protected $_name = 'KTMPost';
     
     public function __construct($params)
     {
@@ -13,7 +14,11 @@ class NNPG_Filter_CollectorKTMPost
     
     public function process()
     {
-        $this->_downloadAndGenerateFileList();
+        return array(
+            'inPaths' => $this->_downloadAndGenerateFileList(),
+            'outPath' => FILE_PATH . '/combined/' . $this->_name . '-' . 
+                date('Y-m-d', strtotime($this->_params['date'])) . '.pdf',
+        );
     }
     
     protected function _checkParams($params)
@@ -32,9 +37,11 @@ class NNPG_Filter_CollectorKTMPost
         $fileList = array();
         
         for ($i = 1; $i <= $numOfPages; $i++) {
+            $filePath = 'single/' . $this->_name . "/$dateInFilename/p$i.pdf";
+            
             $url = sprintf($urlTpl, $date, $i);
             $fileProxy = new NNPG_Utils_FileProxy();
-            $fileProxy->setName("KTMPost-$dateInFilename-$i.pdf");
+            $fileProxy->setName($filePath);
             $fileProxy->setUrl($url);
             $fileProxy->download();
             $fileList[] = $fileProxy->getPath();
