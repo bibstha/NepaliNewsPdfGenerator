@@ -59,7 +59,8 @@ class NNPG_Filter_CombinePDF
         if (!file_exists(dirname($this->params['outPath']))) 
             mkdir(dirname($this->params['outPath']), 0777, true);
             
-        $commandTpl = 'gs -dNOPAUSE -sDEVICE=pdfwrite -sOUTPUTFILE=%s -dBATCH %s';
+//        $commandTpl = 'gs -dNOPAUSE -sDEVICE=pdfwrite -sOUTPUTFILE=%1$s -dBATCH %2$s';
+        $commandTpl = 'pdftk %2$s cat output %1$s';
         $command = sprintf($commandTpl, $this->params['outPath'], implode(' ', $this->params['inPaths']));
         
         exec($command, $output, $retVal);
