@@ -1,0 +1,4 @@
+files/*.pdf
+.buildpath
+.project
+.settings
