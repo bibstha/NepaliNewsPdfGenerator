@@ -16,7 +16,7 @@ class NNPG_Filter_CollectorKTMPost
     {
         return array(
             'inPaths' => $this->_downloadAndGenerateFileList(),
-            'outPath' => FILE_PATH . '/combined/' . $this->_name . '-' . 
+            'outPath' => FILE_PATH . '/combined/' . $this->_name . '/' . 
                 date('Y-m-d', strtotime($this->_params['date'])) . '.pdf',
         );
     }

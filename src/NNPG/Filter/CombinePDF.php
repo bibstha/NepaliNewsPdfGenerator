@@ -54,6 +54,8 @@ class NNPG_Filter_CombinePDF
     
     protected function _generateOutFile()
     {
+        if (file_exists($this->params['outPath'])) return;
+        
         if (!file_exists(dirname($this->params['outPath']))) 
             mkdir(dirname($this->params['outPath']), 0777, true);
             
