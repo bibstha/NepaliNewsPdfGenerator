@@ -5,7 +5,7 @@ class NNPG_Generator
     public function generate($newsSourceType, $date)
     {
         $startFilter = new NNPG_FilterCommand();
-        $startFilter->name = 'CollectorKTMPost';
+        $startFilter->name = 'Collector' . $newsSourceType;
         $startFilter->params = array(
             'date' => $date,
         );
