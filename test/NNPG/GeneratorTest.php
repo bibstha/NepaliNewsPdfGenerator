@@ -6,6 +6,6 @@ class NNPG_GeneratorTest extends PHPUnit_Framework_TestCase
     public function testGenerate()
     {
         $obj = new NNPG_Generator();
-        $obj->generate('KTMPost', '2012-02-22');
+        $obj->generate('KTMPost', date('Y-m-d'));
     }
 }
