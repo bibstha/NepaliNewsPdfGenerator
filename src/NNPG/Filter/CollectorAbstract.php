@@ -1,6 +1,4 @@
 <?php
-require_once("NNPG/Utils/FileProxy.php");
-require_once("NNPG/Utils/ImageToPDF.php");
 
 abstract class NNPG_Filter_CollectorAbstract implements NNPG_Filter_Interface
 {

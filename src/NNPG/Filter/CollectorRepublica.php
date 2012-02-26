@@ -19,7 +19,7 @@ class NNPG_Filter_CollectorRepublica extends NNPG_Filter_CollectorAbstract
         // Do initialization by crawling republica website
         $this->_crawlAndExtractRepublica();
         
-        $imgToPdf = new NNPG_Util_ImageToPDF();
+        $imgToPdf = new NNPG_Utils_ImageToPDF();
         
         $dateInFilename = $this->_getDateForFileName();
         $numOfPages = $this->_getPageCount();

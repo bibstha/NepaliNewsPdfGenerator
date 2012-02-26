@@ -1,5 +1,5 @@
 <?php
-class NNPG_Util_ImageToPDF
+class NNPG_Utils_ImageToPDF
 {
     public function convert($srcPath, $dstPath)
     {

@@ -62,6 +62,8 @@ class NNPG_Filter_CombinePDF implements NNPG_Filter_Interface
         $outPath = $this->_params['outPath'];
         $inPaths = $this->_input;
         
+        print "Generating Combined PDF : " . $outPath . "\n";
+        
         if (file_exists($outPath)) return;
         
         if (!file_exists(dirname($outPath))) 

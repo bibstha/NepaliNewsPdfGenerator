@@ -24,7 +24,7 @@ class NNPG_Filter_CollectorKantipur extends NNPG_Filter_CollectorAbstract
         $filePathTpl = 'single/%1$s/%2$s/%3$s';
         for ($i = 1; $i <= $numOfPages; $i++) {
             $filePath = sprintf($filePathTpl, $this->_name, $dateInFilename, "p$i.pdf");
-            print $filePath . "\n";
+            print "Downloading : " . $filePath . "\n";
             $url = $this->_getUrl($i);
             $fileProxy = new NNPG_Utils_FileProxy();
             $fileProxy->setName($filePath);
