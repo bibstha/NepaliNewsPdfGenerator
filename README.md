@@ -22,6 +22,6 @@ Downloads single pages of images from various sources and combines them to singl
 
 The PDFs are generated daily at http://ow.ly/9iitp
 
-**How to reach the code author?**
+**Get in touch?**
 
-http://twitter.com/bibstha
+Drop me any comments or queries at http://twitter.com/bibstha.

@@ -7,7 +7,5 @@ class NNPG_Utils_ImageToPDF
         if (file_exists($dstPath)) return;
         $cmd = "convert $srcPath $dstPath";
         exec($cmd, $output, $retVal);
-        
-        print $retVal;
     }
 }
