@@ -53,4 +53,6 @@ abstract class NNPG_Filter_CollectorAbstract implements NNPG_Filter_Interface
     abstract protected function _processInput();
     
     abstract protected function _getDate();
+    
+    abstract protected function _getPageCount();
 }

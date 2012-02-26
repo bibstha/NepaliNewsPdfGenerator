@@ -18,7 +18,7 @@ class NNPG_Filter_CollectorKantipur extends NNPG_Filter_CollectorAbstract
     {
         $date = $this->_getDate();
         $dateInFilename = $this->_getDateForFileName();
-        $numOfPages = 20;
+        $numOfPages = $this->_getPageCount();
         
         $fileList = array();
         $filePathTpl = 'single/%1$s/%2$s/%3$s';
@@ -41,4 +41,10 @@ class NNPG_Filter_CollectorKantipur extends NNPG_Filter_CollectorAbstract
         return date('jnY', strtotime($this->_params['date']) );
     }
 
+    protected function _getPageCount()
+    {
+        $xml = file_get_contents( sprintf('http://epaper.ekantipur.com/%s/pages.xml', $this->_getDate()) );
+        $count = (int)substr_count($xml, '<page>');
+        return $count?$count:20;
+    }
 }
