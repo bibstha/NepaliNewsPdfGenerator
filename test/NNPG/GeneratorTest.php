@@ -26,4 +26,10 @@ class NNPG_GeneratorTest extends PHPUnit_Framework_TestCase
         $obj = new NNPG_Generator();
         $obj->generate('Nagarik', date('Y-m-d'));
     }
+    
+    public function testGenerateTodayTHT()
+    {
+        $obj = new NNPG_Generator();
+        $obj->generate('THT', date('Y-m-d'));
+    }
 }

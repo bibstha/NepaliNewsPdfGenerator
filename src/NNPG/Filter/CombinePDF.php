@@ -69,8 +69,8 @@ class NNPG_Filter_CombinePDF implements NNPG_Filter_Interface
         if (!file_exists(dirname($outPath))) 
             mkdir(dirname($outPath), 0777, true);
             
-//        $commandTpl = 'gs -dNOPAUSE -sDEVICE=pdfwrite -sOUTPUTFILE=%1$s -dBATCH %2$s';
-        $commandTpl = 'pdftk %2$s cat output %1$s';
+        $commandTpl = 'gs -dNOPAUSE -sDEVICE=pdfwrite -sOUTPUTFILE=%1$s -dBATCH %2$s';
+//        $commandTpl = 'pdftk %2$s cat output %1$s';
         $command = sprintf($commandTpl, $outPath, implode(' ', $inPaths));
         exec($command, $output, $retVal);
         
