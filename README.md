@@ -20,7 +20,7 @@ Downloads single pages of images from various sources and combines them to singl
 
 **Where can I see the PDF**
 
-The PDFs are generated daily at http://maya.bibek.com.np/newspapers/files/
+The PDFs are generated daily at http://maya.bibek.com.np/newspapers/files/combined/
 
 **How to reach the code author?**
 
