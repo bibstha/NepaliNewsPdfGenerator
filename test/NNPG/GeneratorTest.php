@@ -9,15 +9,21 @@ class NNPG_GeneratorTest extends PHPUnit_Framework_TestCase
         $obj->generate('KTMPost', date('Y-m-d'));
     }
     
+    public function testGenerateTodayKantipur()
+    {
+        $obj = new NNPG_Generator();
+        $obj->generate('Kantipur', date('Y-m-d'));
+    }
+    
     public function testGenerateTodayRepublica()
     {
         $obj = new NNPG_Generator();
         $obj->generate('Republica', date('Y-m-d'));
     }
     
-    public function testGenerateTodayKantipur()
+    public function testGenerateTodayNagarik()
     {
         $obj = new NNPG_Generator();
-        $obj->generate('Kantipur', date('Y-m-d'));
+        $obj->generate('Nagarik', date('Y-m-d'));
     }
 }
