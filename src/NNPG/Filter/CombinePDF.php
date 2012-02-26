@@ -13,27 +13,31 @@
  * @author bibek shrestha <bibekshrestha [at] gmail [dot] com>
  *
  */
-class NNPG_Filter_CombinePDF
+class NNPG_Filter_CombinePDF implements NNPG_Filter_Interface
 {
-    protected $params;
-    
-    public function __construct($params)
-    {
-        if (!isset($params['inPaths'])) throw new Exception('inPaths not set');
-        if (!isset($params['outPath'])) throw new Exception('outPath not set');
-        
-        if (!is_string($params['inPaths']) && !is_array($params['inPaths']))
-            throw new Exception('inPaths should be either string or array');
-            
-        if (is_string($params['inPaths']))
-            $params['inPaths'] = explode('\n', $params['inPaths']);
-        
-        $this->params = $params;
-    }
+    protected $_name = 'CombinePDF';
+    protected $_params;
+    protected $_input;
     
     public function getParams()
     {
         return $this->params;
+    }
+    
+    public function getName()
+    {
+        return $this->_name;
+    }
+
+    public function setParams($params)
+    {
+        $this->_checkParams($params);
+        $this->_params = $params;
+    }
+
+    public function setInput($input)
+    {
+        $this->_input = $input;
     }
     
     public function process()
@@ -44,7 +48,8 @@ class NNPG_Filter_CombinePDF
     
     protected function _checkInPaths()
     {
-        foreach ($this->params['inPaths'] as $path) {
+        $inPaths = $this->_input;
+        foreach ($inPaths as $path) {
             if (!file_exists($path)) {
                 throw new Exception('File does not exist : ' . $path);
             }
@@ -54,19 +59,27 @@ class NNPG_Filter_CombinePDF
     
     protected function _generateOutFile()
     {
-        if (file_exists($this->params['outPath'])) return;
+        $outPath = $this->_params['outPath'];
+        $inPaths = $this->_input;
         
-        if (!file_exists(dirname($this->params['outPath']))) 
-            mkdir(dirname($this->params['outPath']), 0777, true);
+        if (file_exists($outPath)) return;
+        
+        if (!file_exists(dirname($outPath))) 
+            mkdir(dirname($outPath), 0777, true);
             
 //        $commandTpl = 'gs -dNOPAUSE -sDEVICE=pdfwrite -sOUTPUTFILE=%1$s -dBATCH %2$s';
         $commandTpl = 'pdftk %2$s cat output %1$s';
-        $command = sprintf($commandTpl, $this->params['outPath'], implode(' ', $this->params['inPaths']));
-        
+        $command = sprintf($commandTpl, $outPath, implode(' ', $inPaths));
         exec($command, $output, $retVal);
         
         if ($retVal !== 0) {
             throw new Exception('Cannot complete task due to error');
         }
     }
+
+    protected function _checkParams($params)
+    {
+        if (!isset($params['outPath'])) throw new Exception("Parameter 'outPath' should be set");
+    }
+
 }

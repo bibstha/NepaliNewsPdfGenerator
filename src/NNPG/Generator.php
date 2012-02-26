@@ -4,45 +4,28 @@ class NNPG_Generator
 {
     public function generate($newsSourceType, $date)
     {
-        $startFilter = new NNPG_FilterCommand();
-        $startFilter->name = 'Collector' . $newsSourceType;
-        $startFilter->params = array(
+        $collectorName = 'NNPG_Filter_Collector' . $newsSourceType;
+        $startFilter = new $collectorName;
+        $startFilter->setParams( array(
             'date' => $date,
-        );
+        ) );
         
-        $endFilter = new NNPG_FilterCommand();
-        $endFilter->name = 'CombinePDF';
-        $endFilter->params = array(
-            // 'outPath' => FILE_PATH . '/CollectorKTMPost/' . date('Y-m-d',strtotime($date)),
-        );
+        $endFilter = new NNPG_Filter_CombinePDF();
+        $endFilter->setParams( array(
+            'outPath' => sprintf("%s/combined/%s/%s.pdf", FILE_PATH, $startFilter->getName(),
+                $startFilter->_getDateForFileName())
+        ) );
         
         $this->process(array($startFilter, $endFilter));
     }
     
     public function process($filters)
     {
-        $filterOut = array();
-        foreach ($filters as $filter) {
-            // extract Name and Params
-            $filterName = $filter->name;
-            $filterParams = $filter->params;
-
-            // append the output of previous filter
-            $filterParams += $filterOut;
-            $filterClassName = 'NNPG_Filter_' . $filterName;
-            
-            require_once(str_replace('_', '/', $filterClassName . '.php'));
-            $filterObj = new $filterClassName($filterParams);
-            
-            $filterOut = $filterObj->process();
+        $filterOutput = array();
+        foreach ($filters as $filterObj) {
+            $filterInput = $filterOutput;
+            $filterObj->setInput($filterInput);
+            $filterOutput = $filterObj->process();
         }
     }
-    
-    
-}
-
-class NNPG_FilterCommand
-{
-    public $name;
-    public $params;
 }

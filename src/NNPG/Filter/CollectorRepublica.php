@@ -61,7 +61,7 @@ class NNPG_Filter_CollectorRepublica
             $fileProxy = new NNPG_Utils_FileProxy();
             $fileProxy->setName($imageFilePath);
             $fileProxy->setUrl($url);
-            $fileProxy->download();
+            $isSuccess = $fileProxy->download();
             $imagePath = $fileProxy->getPath();
             $pdfPath = FILE_PATH . '/single/' . $this->_name . "/$dateForFileName/p$i.pdf";
             $imgToPdf->convert($imagePath, $pdfPath);
