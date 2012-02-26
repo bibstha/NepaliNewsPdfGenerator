@@ -6,7 +6,7 @@
 Why not allow a whole PDF?
 2. A central repository for all NewsPapers.
 
-**What the library does**
+**What the library does?**
 
 Downloads single pages of images from various sources and combines them to single PDF file.
 
@@ -20,7 +20,7 @@ Downloads single pages of images from various sources and combines them to singl
 
 **Where can I see the PDF**
 
-The PDFs are generated daily at http://maya.bibek.com.np/newspapers/files/combined/
+The PDFs are generated daily at http://ow.ly/9iitp
 
 **How to reach the code author?**
 
