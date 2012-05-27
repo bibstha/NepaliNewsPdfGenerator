@@ -42,13 +42,16 @@ class NNPG_Filter_CombinePDF implements NNPG_Filter_Interface
     
     public function process()
     {
-        $this->_checkInPaths();
-        $this->_generateOutFile();
+        // do not continue if one of the process fails
+        if ($this->_checkInPaths()) return;
+        if ($this->_generateOutFile()) return;
     }
     
     protected function _checkInPaths()
     {
         $inPaths = $this->_input;
+        if (empty($inPaths)) return false;
+
         foreach ($inPaths as $path) {
             if (!file_exists($path)) {
                 throw new Exception('File does not exist : ' . $path);
