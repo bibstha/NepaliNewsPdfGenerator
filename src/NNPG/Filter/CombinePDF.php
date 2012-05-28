@@ -43,8 +43,8 @@ class NNPG_Filter_CombinePDF implements NNPG_Filter_Interface
     public function process()
     {
         // do not continue if one of the process fails
-        if ($this->_checkInPaths()) return;
-        if ($this->_generateOutFile()) return;
+        if (!$this->_checkInPaths()) return;
+        if (!$this->_generateOutFile()) return;
     }
     
     protected function _checkInPaths()
@@ -67,7 +67,7 @@ class NNPG_Filter_CombinePDF implements NNPG_Filter_Interface
         
         print "Generating Combined PDF : " . $outPath . "\n";
         
-        if (file_exists($outPath)) return;
+        if (file_exists($outPath)) return false;
         
         if (!file_exists(dirname($outPath))) 
             mkdir(dirname($outPath), 0777, true);
