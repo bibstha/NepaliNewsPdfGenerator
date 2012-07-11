@@ -56,15 +56,31 @@ class NNPG_Filter_CollectorNagarik extends NNPG_Filter_CollectorAbstract
     
     protected function _crawlAndExtractRepublica()
     {
+        $opts = array(
+            'http'=>array(
+                'method'=>"GET",
+                'header'=>"Accept-language: en\r\n" .
+                    "Accept-Encoding: gzip\r\n"
+            )
+        );
+        $context = stream_context_create($opts);
+
         // page with link to individual prints
-        $xml = file_get_contents('http://nagarikplus.nagariknews.com/');
+        $xml = file_get_contents('http://nagarikplus.nagariknews.com/', false, $context);
         preg_match_all('#href="/component/flippingbook/book/(.*)"#U', $xml, $matches);
         
+        $latestIssueDate = preg_replace('#.*-nagarik-(.*)/.*#', '$1', $matches[1][0]);
+        $expectedDate = date('Y-m-d');
+        $crawledDate  = date('Y-m-d', strtotime($latestIssueDate));
+        if ($expectedDate != $crawledDate) {
+            return;
+        }
+
         // Change latestUrl to get date-wise-url
         $latestUrl = 'http://nagarikplus.nagariknews.com/component/flippingbook/book/' . $matches[1][0];
         
         // page with one print
-        $xml = file_get_contents($latestUrl);
+        $xml = file_get_contents($latestUrl, false, $context);
         preg_match("#flippingBook[0-9]+.enlargedImages = \[(.*)\]#sU", $xml, $matches);
         $pages = $matches[1];
         preg_match_all("#/images/.*\.jpg#U", $pages, $matches);

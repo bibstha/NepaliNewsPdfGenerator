@@ -32,4 +32,10 @@ class NNPG_GeneratorTest extends PHPUnit_Framework_TestCase
         $obj = new NNPG_Generator();
         $obj->generate('THT', date('Y-m-d'));
     }
+
+    public function testGetDateArgument()
+    {
+        var_dump( getopt("d:") );
+        print "Hello World";
+    }
 }
