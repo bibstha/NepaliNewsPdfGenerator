@@ -50,6 +50,9 @@ abstract class NNPG_Filter_CollectorAbstract implements NNPG_Filter_Interface
     
     abstract protected function _processInput();
     
+    /**
+     * Returns the date of the day for which news paper has to be extracted
+     */
     abstract protected function _getDate();
     
     abstract protected function _getPageCount();

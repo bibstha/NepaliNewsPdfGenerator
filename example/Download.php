@@ -30,6 +30,8 @@ OPTIONS:
 --nagarik   for Nagarik
 --tht       for TheHimalayanTimes
 
+--date=Y-m-d for specific date download 
+
 
 
 EOF;
