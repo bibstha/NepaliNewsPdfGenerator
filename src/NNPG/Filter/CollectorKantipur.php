@@ -1,6 +1,7 @@
 <?php
 class NNPG_Filter_CollectorKantipur extends NNPG_Filter_CollectorAbstract
 {
+    const TAG = "CollectorKantipur";
     protected $_name = 'Kantipur';
     
     protected function _getUrl($pageNumber)
@@ -22,15 +23,24 @@ class NNPG_Filter_CollectorKantipur extends NNPG_Filter_CollectorAbstract
         
         $fileList = array();
         $filePathTpl = 'single/%1$s/%2$s/%3$s';
+        NNPG_Utils_Log::d(self::TAG, "Downloading " . $numOfPages . " pages");
         for ($i = 1; $i <= $numOfPages; $i++) {
             $filePath = sprintf($filePathTpl, $this->_name, $dateInFilename, "p$i.pdf");
             print "Downloading : " . $filePath . "\n";
             $url = $this->_getUrl($i);
+            NNPG_Utils_Log::d(self::TAG, "Downloading " . $url);
             $fileProxy = new NNPG_Utils_FileProxy();
             $fileProxy->setName($filePath);
             $fileProxy->setUrl($url);
-            $fileProxy->download();
-            $fileList[] = $fileProxy->getPath();
+            try
+            {
+                $fileProxy->download();
+                $fileList[] = $fileProxy->getPath();
+            }
+            catch (Exception $e)
+            {
+                NNPG_Utils_Log::e(self::TAG, $e->getMessage());
+            }
         }
         
         return $fileList;
@@ -45,6 +55,6 @@ class NNPG_Filter_CollectorKantipur extends NNPG_Filter_CollectorAbstract
     {
         $xml = file_get_contents( sprintf('http://epaper.ekantipur.com/%s/pages.xml', $this->_getDate()) );
         $count = (int)substr_count($xml, '<page>');
-        return $count?$count:20;
+        return $count?$count:0;
     }
 }
