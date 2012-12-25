@@ -15,6 +15,8 @@
  */
 class NNPG_Filter_CombinePDF implements NNPG_Filter_Interface
 {
+    const TAG = "Filter_CombinePDF";
+
     protected $_name = 'CombinePDF';
     protected $_params;
     protected $_input;
@@ -63,15 +65,36 @@ class NNPG_Filter_CombinePDF implements NNPG_Filter_Interface
     protected function _generateOutFile()
     {
         $outPath = $this->_params['outPath'];
+        $thumbnailPath = $this->_params['thumbnailPath'];
         $inPaths = $this->_input;
+
+        // Generate thumbnail
+        if (!empty($inPaths[0]))
+        {
+            if (!file_exists($thumbnailPath))
+            {
+                NNPG_Utils_Log::d(self::TAG, "Creating thumbnail at $thumbnailPath");
+                mkdir(dirname($thumbnailPath), 0777, true);
+                $thumbnailTpl = 'convert -flatten -thumbnail 170 %1$s %2$s';
+                $thumbnailCmd = sprintf($thumbnailTpl, $inPaths[0], $thumbnailPath);
+                exec($thumbnailCmd);
+            }
+            else
+            {
+                NNPG_Utils_Log::d(self::TAG, "Thumbnail already exists at $thumbnailPath");
+            }
+        }
         
-        print "Generating Combined PDF : " . $outPath . "\n";
+        NNPG_Utils_Log::d(self::TAG, "Generating Combined PDF : " . $outPath);
         
         if (file_exists($outPath)) return false;
         
         if (!file_exists(dirname($outPath))) 
             mkdir(dirname($outPath), 0777, true);
-            
+        
+        
+
+        $thumbnailTpl = 'convert -flatten -thumbnail 170 %1$s %2$s';
         $commandTpl = 'gs -dNOPAUSE -sDEVICE=pdfwrite -sOUTPUTFILE=%1$s -dBATCH %2$s';
 //        $commandTpl = 'pdftk %2$s cat output %1$s';
         $command = sprintf($commandTpl, $outPath, implode(' ', $inPaths));

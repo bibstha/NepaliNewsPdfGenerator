@@ -13,7 +13,9 @@ class NNPG_Generator
         $endFilter = new NNPG_Filter_CombinePDF();
         $endFilter->setParams( array(
             'outPath' => sprintf("%s/combined/%s/%s.pdf", FILE_PATH, $startFilter->getName(),
-                $startFilter->_getDateForFileName())
+                $startFilter->_getDateForFileName()),
+            'thumbnailPath' => sprintf("%s/thumbnail/%s/%s.png", FILE_PATH, $startFilter->getName(),
+                $startFilter->_getDateForFileName()),
         ) );
         
         $this->process(array($startFilter, $endFilter));
