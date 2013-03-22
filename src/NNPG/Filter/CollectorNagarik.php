@@ -74,15 +74,16 @@ class NNPG_Filter_CollectorNagarik extends NNPG_Filter_CollectorAbstract
             'http'=>array(
                 'method'=>"GET",
                 'header'=>"Accept-language: en\r\n" .
-                    "Accept-Encoding: gzip\r\n"
+                    "Accept-Encoding: gzip\r\n" .
+                    "User-Agent: Mozilla/5.0 AppleWebKit/533.17.9\r\n"
             )
         );
         $context = stream_context_create($opts);
 
         // page with link to individual prints
         NNPG_Utils_Log::d(self::TAG, "Downloading http://nagarikplus.nagariknews.com/");;
-        $xml = file_get_contents('http://nagarikplus.nagariknews.com/', false, $context);
-        preg_match_all('#href="/component/flippingbook/book/(.*-nagarik-(.*)/.*)"#U', $xml, $matches);
+        $xml = file_get_contents('http://nagarikplus.nagariknews.com/', false, $context);NNPG_Utils_Log::d(self::TAG, $xml);
+        preg_match_all('#href="/component/flippingbook/book/(.*-nagarik-(.*)/.*)"#U', $xml, $matches);NNPG_Utils_Log::d(self::TAG, $matches);
 
         NNPG_Utils_Log::d(self::TAG, "Check if we have date " . date('Y-m-d', $this->_getDate()));
         $dateFound = false;
