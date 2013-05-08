@@ -78,9 +78,9 @@ class NNPG_Filter_CombinePDF implements NNPG_Filter_Interface
             }
             if (!file_exists($thumbnailPath))
             {
-                NNPG_Utils_Log::d(self::TAG, "Creating thumbnail at $thumbnailPath");
                 $thumbnailTpl = 'convert -flatten -thumbnail 170 %1$s %2$s';
                 $thumbnailCmd = sprintf($thumbnailTpl, $inPaths[0], $thumbnailPath);
+                NNPG_Utils_Log::d(self::TAG, "Creating thumbnail at $thumbnailPath. Executing command \n\t" . $thumbnailCmd);
                 exec($thumbnailCmd);
             }
             else
