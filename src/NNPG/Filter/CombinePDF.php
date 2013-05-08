@@ -71,10 +71,14 @@ class NNPG_Filter_CombinePDF implements NNPG_Filter_Interface
         // Generate thumbnail
         if (!empty($inPaths[0]))
         {
+            if (!file_exists(dirname($thumbnailPath)))
+            {
+                NNPG_Utils_Log::d(self::TAG, "Creating directory " . dirname($thumbnailPath));
+                mkdir(dirname($thumbnailPath), 0777, true);
+            }
             if (!file_exists($thumbnailPath))
             {
                 NNPG_Utils_Log::d(self::TAG, "Creating thumbnail at $thumbnailPath");
-                mkdir(dirname($thumbnailPath), 0777, true);
                 $thumbnailTpl = 'convert -flatten -thumbnail 170 %1$s %2$s';
                 $thumbnailCmd = sprintf($thumbnailTpl, $inPaths[0], $thumbnailPath);
                 exec($thumbnailCmd);
@@ -85,19 +89,26 @@ class NNPG_Filter_CombinePDF implements NNPG_Filter_Interface
             }
         }
         
-        NNPG_Utils_Log::d(self::TAG, "Generating Combined PDF : " . $outPath);
+        NNPG_Utils_Log::d(self::TAG, "Trying to generating combined PDF : " . $outPath);
         
-        if (file_exists($outPath)) return false;
+        if (file_exists($outPath))
+        {
+            NNPG_Utils_Log::d(self::TAG, "PDF file already exist : " . $outPath);
+            return false;
+        }
         
-        if (!file_exists(dirname($outPath))) 
+        if (!file_exists(dirname($outPath)))
+        {
+            NNPG_Utils_Log::d(self::TAG, "Creating directory : " . dirname($outPath));
             mkdir(dirname($outPath), 0777, true);
-        
+        }
         
 
         $thumbnailTpl = 'convert -flatten -thumbnail 170 %1$s %2$s';
         $commandTpl = 'gs -dNOPAUSE -sDEVICE=pdfwrite -sOUTPUTFILE=%1$s -dBATCH %2$s';
 //        $commandTpl = 'pdftk %2$s cat output %1$s';
         $command = sprintf($commandTpl, $outPath, implode(' ', $inPaths));
+        NNPG_Utils_Log::d(self::TAG, "Executing command \n\t" . $command . "\n");
         exec($command, $output, $retVal);
         
         if ($retVal !== 0) {
